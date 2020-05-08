@@ -12,8 +12,8 @@ abstract class BasicBuilding(
 ) : Building {
 
     override fun addStockPile(productType: ProductType, number: Int) {
-        if(stockPile.containsKey(productType) ) {
-            if(stockPile[productType]!!.productCount + number > stockPile[productType]!!.maximum) {
+        if (stockPile.containsKey(productType)) {
+            if (stockPile[productType]!!.productCount + number > stockPile[productType]!!.maximum) {
                 stockPile[productType]!!.productCount = stockPile[productType]!!.maximum
             } else {
                 stockPile[productType]!!.productCount += number
@@ -23,11 +23,11 @@ abstract class BasicBuilding(
         }
     }
 
-    override fun removeStockPile(productType: ProductType, number: Int) : Int {
-        val removePile = if(stockPile[productType]!!.productCount- number < 0)
-                stockPile[productType]!!.productCount
-            else
-                number
+    override fun removeStockPile(productType: ProductType, number: Int): Int {
+        val removePile = if (stockPile[productType]!!.productCount - number < 0)
+            stockPile[productType]!!.productCount
+        else
+            number
         stockPile[productType]!!.productCount -= removePile
         return removePile
     }

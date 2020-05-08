@@ -4,6 +4,6 @@ import game.building.Building
 import game.product.ProductType
 
 interface Factory : Building {
-    var productionRate : Int
-    val productType : ProductType
+    var productionRate: Int
+    val productType: ProductType
 }

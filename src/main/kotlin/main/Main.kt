@@ -11,7 +11,6 @@ public  val productTable : MutableMap<ProductType, Product> = mutableMapOf()
 
 fun main(args : Array<String>) {
 
-
     productTable[ProductType.COAL] = BasicProduct(ProductType.COAL, 4)
 
     val coalFactory = RawFactory(3, ProductType.COAL, "Tokyo Coal Mine", 0.5, mutableMapOf())

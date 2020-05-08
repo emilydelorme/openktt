@@ -5,5 +5,4 @@ data class BasicProductPile(
     override var productCount: Int,
     override val type: ProductType,
     override var price: Int
-) : ProductPile {
-}
+) : ProductPile

@@ -1,6 +1,6 @@
 package game.product
 
 interface Product {
-    val type : ProductType
-    var price : Int
+    val type: ProductType
+    var price: Int
 }
