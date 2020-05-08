@@ -1,12 +1,3 @@
 package game.product
 
-class BasicProduct(private var productType: ProductType, private var price : Int) : Product {
-
-    override fun getType(): ProductType {
-        return productType
-    }
-
-    override fun getPrice(): Int {
-        return price
-    }
-}
+data class BasicProduct(override val type: ProductType, override var price: Int) : Product
