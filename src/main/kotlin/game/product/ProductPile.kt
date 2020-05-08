@@ -1,6 +1,6 @@
 package game.product
 
 interface ProductPile : Product {
-    val maximum : Long
+    val maximum : Int
     var productCount : Int
 }
