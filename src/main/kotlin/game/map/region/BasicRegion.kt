@@ -7,12 +7,9 @@ import game.country.Country
 import game.map.Area
 
 class BasicRegion(
-    override val cities: MutableList<City> = mutableListOf(),
-    override val building: MutableList<Building> = mutableListOf(),
     override val name: String,
-    override var belongTo: Country
+    override var belongTo: Country,
+    override val cities: MutableList<City> = mutableListOf(),
+    override val building: MutableList<Building> = mutableListOf()
 ) : Region {
-    override fun toString(): String {
-        return "BasicRegion(cities=$cities, building=$building, name='$name', belongTo=$belongTo)\n"
-    }
 }
