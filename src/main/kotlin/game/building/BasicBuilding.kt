@@ -19,7 +19,7 @@ abstract class BasicBuilding(
                 stockPile[productType]!!.productCount += number
             }
         } else {
-            stockPile[productType] = BasicProductPile(128, number, productType, productTable[productType]!!.price)
+            stockPile[productType] = BasicProductPile(128, number, productType)
         }
     }
 
