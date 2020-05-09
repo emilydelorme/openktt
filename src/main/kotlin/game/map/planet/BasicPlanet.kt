@@ -9,5 +9,7 @@ class BasicPlanet(override val regions: MutableList<Region> = mutableListOf(),
                   override val name: String,
                   override var belongTo: Country
 ) : Planet {
-
+    override fun toString(): String {
+        return "BasicPlanet(regions=$regions, name='$name', belongTo=$belongTo)"
+    }
 }

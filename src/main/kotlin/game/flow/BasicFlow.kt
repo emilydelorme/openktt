@@ -15,4 +15,8 @@ class BasicFlow(
             destination.addStockPile(productType, speed)
         }
     }
+
+    override fun toString(): String {
+        return "BasicFlow(productType=$productType, speed=$speed, source=$source, destination=$destination)"
+    }
 }

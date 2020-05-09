@@ -17,6 +17,6 @@ class RawFactory(
     }
 
     override fun toString(): String {
-        return "RawFactory(productionRate=$productionRate, productType=$productType, name='$name', cost=$cost, stockPile=$stockPile)"
+        return "RawFactory(productionRate=$productionRate, productType=$productType, name='$name', cost=$cost, stockPile=$stockPile)\n"
     }
 }

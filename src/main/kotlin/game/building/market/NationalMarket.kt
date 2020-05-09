@@ -14,6 +14,6 @@ class NationalMarket(
     }
 
     override fun toString(): String {
-        return "NationalMarket(name='$name', cost=$cost, stockPile=$stockPile)"
+        return "NationalMarket(name='$name', cost=$cost, stockPile=$stockPile)\n"
     }
 }

@@ -12,5 +12,7 @@ class BasicRegion(
     override val name: String,
     override var belongTo: Country
 ) : Region {
-
+    override fun toString(): String {
+        return "BasicRegion(cities=$cities, building=$building, name='$name', belongTo=$belongTo)\n"
+    }
 }
