@@ -5,4 +5,5 @@ import game.map.region.Region
 
 interface Planet : Area {
     val regions : MutableList<Region>
+    val radius : Double
 }

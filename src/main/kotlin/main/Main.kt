@@ -44,7 +44,7 @@ fun main(args : Array<String>) {
     universe.galaxies.add(milky)
     milky.systems.add(solarSystem)
 
-    val earth = BasicPlanet(name="Earth", belongTo = japan)
+    val earth = BasicPlanet(name="Earth", belongTo = japan, radius = 6378.8)
     val honshu = BasicRegion(name="Honshū", belongTo = japan)
     solarSystem.planets.add(earth)
     earth.regions.add(honshu)
