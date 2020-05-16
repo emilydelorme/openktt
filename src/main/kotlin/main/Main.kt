@@ -1,10 +1,13 @@
 package main
 
 import com.beust.klaxon.Klaxon
+import game.building.factory.Factory
 import game.building.factory.RawFactory
+import game.building.market.Market
 import game.building.market.NationalMarket
 import game.country.BasicCountry
 import game.flow.BasicFlow
+import game.flow.Flow
 import game.map.galaxy.BasicGalaxy
 import game.map.planet.BasicPlanet
 import game.map.planet.Planet
@@ -14,12 +17,20 @@ import game.map.universe.BasicUniverse
 import game.product.BasicProduct
 import game.product.Product
 import game.product.ProductType
+import generator.generateFactory
+import generator.generateMarket
+import generator.generateRoutes
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.random.Random
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
 public  val productTable : MutableMap<ProductType, Product> = mutableMapOf()
 
+@ExperimentalTime
 fun main(args : Array<String>) {
 
     productTable[ProductType.COAL] = BasicProduct(ProductType.COAL)
@@ -38,19 +49,28 @@ fun main(args : Array<String>) {
     solarSystem.planets.add(earth)
     earth.regions.add(honshu)
 
-    val coalFactory = RawFactory("Tokyo Coal Mine", 1.0, mutableMapOf(),3, ProductType.COAL)
-    val nationalMarket = NationalMarket("Japan Nationnal Market", 1.0, mutableMapOf())
-    honshu.building.add(coalFactory)
-    honshu.building.add(nationalMarket)
+    // Generator
+    val generateFactory: MutableList<Factory> = generateFactory(10000000)
+    val generateMarket: MutableList<Market> = generateMarket(1000000)
+    val generateRoutes: MutableList<Flow> = generateRoutes(generateFactory, generateMarket, 13000000)
+    honshu.building.addAll(generateFactory)
+    honshu.building.addAll(generateMarket)
 
+    val nbTicks = 365
+    println("Simulating $nbTicks days\n")
 
-    val flowCoalMarket = BasicFlow(ProductType.COAL, 2, coalFactory, nationalMarket)
-
-    println("Simulating 50 Ticks")
-    for (i in 0..50) {
-        coalFactory.tick()
-        nationalMarket.tick()
-        flowCoalMarket.tick()
+    val time = measureTime {
+        var totalTime : Duration = Duration.ZERO
+        for (i in 0..nbTicks) {
+            val timeDay = measureTime {
+                honshu.building.stream().parallel().forEach { it.tick() }
+                generateRoutes.stream().parallel().forEach { it.tick() }
+            }
+            totalTime = totalTime.plus(timeDay)
+            print("Simulating day $i - ${totalTime.div(i)} / day simulated - Total time: $totalTime\r")
+        }
     }
+    println("Simulated $nbTicks days in $time")
+
     Files.writeString(Paths.get("simulationResult.json"), Klaxon().toJsonString(universe))
 }
