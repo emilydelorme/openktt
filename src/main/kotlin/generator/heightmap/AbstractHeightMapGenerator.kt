@@ -7,22 +7,17 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 import kotlin.math.abs
 
-abstract class AbstractHeightMapGenerator(var mapSize: Int, var seed: Int) {
+abstract class AbstractHeightMapGenerator(var generationData: GenerationData) {
 
     lateinit var cachedHeightMapImage: BufferedImage
     lateinit var cachedHeightMap: HeightMap
     var isValid = false
-    var perturbFrequency = 0f
-    var perturbDistance = 0f
-    var erodeIterations = 0
-    var erodeSmoothness = 0f
 
     var minHeight: Float = -1.0f
     var maxHeight: Float = 1.0f
 
-
-    var grayScaleGradientManager = GrayScaleGradientManager()
-    var terrainGradientManager = TerrainGradientManager()
+    var grayScaleGradientManager = GrayScaleGradientManager(generationData.offSetRGB)
+    var terrainGradientManager = TerrainGradientManager(generationData.offSetRGB)
     var defaultGradientManager = terrainGradientManager
 
     var useGrayScale = false
@@ -94,8 +89,8 @@ abstract class AbstractHeightMapGenerator(var mapSize: Int, var seed: Int) {
      */
     fun normalize() {
         val oMax = 2
-        for (i in 0 until mapSize) {
-            for (j in 0 until mapSize) {
+        for (i in 0 until generationData.size) {
+            for (j in 0 until generationData.size) {
                 cachedHeightMap.heights[i][j] = ((cachedHeightMap.heights[i][j] + abs(minHeight) * oMax / (maxHeight + abs(minHeight))) - 1)
             }
         }

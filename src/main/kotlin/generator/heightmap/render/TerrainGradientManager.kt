@@ -2,7 +2,7 @@ package generator.heightmap.render
 
 import java.awt.Color
 
-class TerrainGradientManager : GradientManager() {
+class TerrainGradientManager(offsetRGB: Boolean) : GradientManager(offsetRGB) {
 
     init {
         addGradientPoint(-1.0000f, Color(0, 0, 128)) // deeps
