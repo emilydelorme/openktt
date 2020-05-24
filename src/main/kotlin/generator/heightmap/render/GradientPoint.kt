@@ -20,13 +20,25 @@ class GradientPoint(var startHeight: Int, var endColor: Color, var startColor: C
     }
 
     /**
-     * Give the RGB value in int a of
+     * Give the RGB value
      *
-     * @param value
+     * @param value Color represented with an Int
+     * @return
+     */
+    fun getRGBValue(value: Int): Int {
+        return (endColor.red shl 16) or
+                (endColor.green shl 8) or
+               endColor.blue
+    }
+
+    /**
+     * Give the RGB value in int with an offset according the base rgb color
+     *
+     * @param value Color represented with an Int
      * @return
      */
     @Throws(RenderException::class)
-    fun getRGBValue(value: Int): Int {
+    fun getRGBValueWithOffset(value: Int): Int {
         return (offsetRGB(startColor.red, endColor.red, value) shl 16) or
                 (offsetRGB(startColor.green, endColor.green, value) shl 8) or
                 offsetRGB(startColor.blue, endColor.blue, value)

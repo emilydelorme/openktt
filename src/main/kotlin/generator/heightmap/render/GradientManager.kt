@@ -2,7 +2,7 @@ package generator.heightmap.render
 
 import java.awt.Color
 
-open class GradientManager {
+open class GradientManager(private  val offsetRGB : Boolean) {
     private val gradientPoints: MutableList<GradientPoint> = mutableListOf()
 
     /**
@@ -45,7 +45,11 @@ open class GradientManager {
         }
 
         for (i in gradientPoints.indices) {
-            if (gradientPoints[i].include(fixedPoint)) return gradientPoints[i].getRGBValue(fixedPoint)
+            if (gradientPoints[i].include(fixedPoint))
+                return when(offsetRGB) {
+                    true -> gradientPoints[i].getRGBValueWithOffset(fixedPoint)
+                    false -> gradientPoints[i].getRGBValue(fixedPoint)
+                }
         }
         // Return black point if point not in the interval (Integer color)
         return 0 shl 16 or (0 shl 8) or 0
