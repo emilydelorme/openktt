@@ -13,10 +13,10 @@ fun main(args : Array<String>) {
 }
 
 fun generateSample() {
-    val map = SimplexHeightMapGenerator(GenerationData(600, 1000,
-        398588,0.7381108399715283,0f,0f,0, 20f))
+    val map = SimplexHeightMapGenerator(GenerationData(8196, 142536789, true,
+        980892,0.70,0f,0f,8, 30f))
     map.generateHeightMap()
-    map.generateBufferedImage(TerrainGradientManager())
+    map.generateBufferedImage(TerrainGradientManager(true))
     println("Min height: ${map.minHeight}, Max height: ${map.maxHeight}")
     ImageIO.write(map.cachedHeightMapImage, "png", File("map.png"))
 }
