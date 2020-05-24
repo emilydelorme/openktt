@@ -17,14 +17,12 @@ class HeightMap(val size : Int, private val seed : Int) {
     fun add2DSimplexNoise(largestFeature: Int, persistence: Double) {
         val simplexNoise = SimplexNoiseOctave(largestFeature, persistence, seed)
         val xStart = 0.0
-        val xEnd = 500.0
         val yStart = 0.0
-        val yEnd = 500.0
 
         for (i in 0 until size) {
             for (j in 0 until size) {
-                val x = (xStart + i * ((xEnd - xStart) / size)).toInt()
-                val y = (yStart + j * ((yEnd - yStart) / size)).toInt()
+                val x = (xStart + i * ((largestFeature - xStart) / size)).toInt()
+                val y = (yStart + j * ((largestFeature - yStart) / size)).toInt()
                 heights[i][j] += simplexNoise.getNoise2D(x, y).toFloat()
             }
         }
@@ -33,23 +31,16 @@ class HeightMap(val size : Int, private val seed : Int) {
     fun add3DSimplexNoise(largestFeature: Int, persistence: Double) {
         val simplexNoise = SimplexNoiseOctave(largestFeature, persistence, seed)
         val xStart = 0.0
-        val xEnd = largestFeature
-        val yStart = 0.0
-        val yEnd = largestFeature
-        val dx = xEnd - xStart
-        val dy = yEnd - yStart
+        val dx = largestFeature - xStart
 
         for (x in 0 until size) {
             for (y in 0 until size) {
-                //Sample noise at smaller intervals
                 val s : Double = x.toDouble() / size
-                val t: Double =  y.toDouble() / size
 
                 val nx = xStart + cos(s * 2 * Math.PI) * dx / (2*Math.PI)
                 val ny = xStart + sin(s * 2 * Math.PI) * dx / (2*Math.PI)
-                val nz = t
 
-                heights[x][y] += simplexNoise.getNoise3D(nx, ny, nz).toFloat()
+                heights[x][y] += simplexNoise.getNoise3D(nx, ny, y.toDouble() / size).toFloat()
             }
         }
     }
@@ -57,11 +48,9 @@ class HeightMap(val size : Int, private val seed : Int) {
     fun add4DSimplexNoise(largestFeature: Int, persistence: Double) {
         val simplexNoise = SimplexNoiseOctave(largestFeature, persistence, seed)
         val xStart = 0.0
-        val xEnd = largestFeature
         val yStart = 0.0
-        val yEnd = largestFeature
-        val dx = xEnd - xStart
-        val dy = yEnd - yStart
+        val dx = largestFeature - xStart
+        val dy = largestFeature - yStart
 
         for (x in 0 until size) {
 
