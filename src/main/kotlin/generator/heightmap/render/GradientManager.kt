@@ -15,15 +15,14 @@ open class GradientManager {
         if (height < -1 || height > 1) throw RenderException("the height of a GrandientPoint must be >= -1 and <= 1")
 
         // since i'm working with RGB, internally i'm using heights from 0 to 255
-        val RGBheight = ((height + 1) * 255 / 2).toInt()
+        val rgbHeight = ((height + 1) * 255 / 2).toInt()
         if (gradientPoints.isEmpty()) {
-            gradientPoints.add(GradientPoint(RGBheight, color!!))
+            gradientPoints.add(GradientPoint(rgbHeight, color!!))
         } else {
             // sets the endHeight of the previous color to the startHeight of the new color -1
-            gradientPoints[gradientPoints.size - 1].endHeight = RGBheight - 1
-            // create a new GraidientPoint, with a starting color == to the endColor of the previous GradientPoint
-            val newPoint = GradientPoint(RGBheight, color!!, gradientPoints[gradientPoints.size - 1].endColor)
-            gradientPoints.add(newPoint)
+            gradientPoints[gradientPoints.size - 1].endHeight = rgbHeight - 1
+            // create a new GradientPoint, with a starting color == to the endColor of the previous GradientPoint
+            gradientPoints.add(GradientPoint(rgbHeight, color!!, gradientPoints[gradientPoints.size - 1].endColor))
         }
     }
 
@@ -32,14 +31,13 @@ open class GradientManager {
     }
 
     /**
-     * if a point has no interval the method returns black
+     * If a point has no interval the method returns black
+     *
      * @param point is expected to be a value from 0 to be 255
      * @throws RenderException
      */
     @Throws(RenderException::class)
     fun renderPoint(point: Int): Int {
-
-        // naive handling
         var fixedPoint = point
         when {
             fixedPoint > 255 -> fixedPoint = 255
@@ -49,12 +47,8 @@ open class GradientManager {
         for (i in gradientPoints.indices) {
             if (gradientPoints[i].include(fixedPoint)) return gradientPoints[i].getRGBValue(fixedPoint)
         }
-
-        // the point has no interval. Return black
-        val r = 0
-        val g = 0
-        val b = 0
-        return r shl 16 or (g shl 8) or b
+        // Return black point if point not in the interval (Integer color)
+        return 0 shl 16 or (0 shl 8) or 0
     }
 
     fun isEmpty(): Boolean {
