@@ -30,18 +30,27 @@ class HeightMap(val generationData: GenerationData) {
         val simplexNoise = SimplexNoiseOctave(generationData)
         val xStart = 0.0
         val yStart = 0.0
-        val dx = generationData.width - xStart
-        val dy = generationData.height - yStart
+        val dx = generationData.largestFeature - xStart
+        val dy = generationData.largestFeature - yStart
 
         for (x in 0 until generationData.width) {
             for (y in 0 until generationData.height) {
-                val s: Double = x.toDouble() / generationData.width
-                val t = y.toDouble() / generationData.height
-                val nx = (xStart + cos(s * 2 * Math.PI) * dx) / (2*Math.PI)
-                val ny = (yStart + sin(t * 2 * Math.PI) * dy) / (2*Math.PI)
+                /* Wikipedia method */
+
+                val r = sqrt(x.toDouble().pow(2) + y.toDouble().pow(2))
+                val t = atan2(y.toDouble(), x.toDouble())
+
+                val nx= (r * cos(t))
+                val ny = ( r * sin(t))
                 val nz = t
-                //println("nx=$nx ,ny=$ny")
-                heights[x][y] += simplexNoise.getNoise3D(nx, ny, nz).toFloat()
+                /*val s = x.toDouble() / generationData.width
+                val t = y.toDouble() / generationData.height
+
+                val nx = (xStart + cos(s * 2 * Math.PI)) * dx / (2 * Math.PI)
+                val ny = (yStart + sin(t * 2 * Math.PI)) * dy / (2 * Math.PI)
+                val nz = t*/
+                //println("nx=$nx ,ny=$ny")*/
+                heights[x][y] = simplexNoise.getNoise3D(nx, ny, nz).toFloat()
             }
         }
     }
