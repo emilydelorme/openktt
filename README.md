@@ -29,6 +29,6 @@ x and y axis linked
 ##### Using godot
 
 Same texture with a sphere:  
-![sphere](img/sphere.png)
+![sphere](img/sphere.png)  
 Same texture with a sphere and clouds (with shaders):
 ![sphereatmo](img/sphere-atmo.png)
