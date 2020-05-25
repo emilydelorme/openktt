@@ -26,7 +26,7 @@ class SimplexNoiseOctave(private val generationData: GenerationData) {
         }
     }
 
-    fun getNoise2D(x: Int, y: Int): Double {
+    fun getNoise2D(x: Double, y: Double): Double {
         var result = 0.0
         for (i in octaves.indices) {
             result += octaves[i].noise(x / frequency[i], y / frequency[i]) * amplitudes[i]
