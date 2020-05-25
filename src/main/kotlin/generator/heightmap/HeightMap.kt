@@ -77,6 +77,45 @@ class HeightMap(val generationData: GenerationData) {
         }
     }
 
+    private fun latLonToXYT(lat : Double, lon : Double, coordinates: Coordinates, generationData: GenerationData): Coordinates {
+        val r = cos(Math.toRadians(lon))
+        coordinates.x = r * cos(Math.toRadians(lat)) * generationData.largestFeature/2
+        coordinates.y = sin(Math.toRadians(lon)) * generationData.largestFeature/2
+        coordinates.z = r * sin(Math.toRadians(lat)) * generationData.largestFeature/2
+        return coordinates
+    }
+
+    fun addSphericalNoise(generationData: GenerationData) {
+        val heightMap = SimplexNoiseOctave(generationData)
+
+        // Define map area latitude/longitude
+        val southLatBound = -180.0
+        val northLatBound = 180.0
+        val westLonBound = -90.0
+        val eastLonBound = 90.0
+
+        var lonExtent = eastLonBound - westLonBound
+        var latExtent = northLatBound - southLatBound
+
+        var xDelta = lonExtent / generationData.width
+        var yDelta = latExtent / generationData.height
+
+        var curLon = westLonBound
+        var curLat = southLatBound
+
+        for(x in 0 until generationData.width) {
+            curLon = westLonBound
+            for(y in 0 until generationData.height) {
+                val coordinates = latLonToXYT(curLat, curLon, Coordinates(0.0, 0.0, 0.0), generationData)
+
+                heights[x][y] = heightMap.getNoise3D(coordinates.x, coordinates.y, coordinates.z).toFloat()
+
+                curLon += xDelta
+            }
+            curLat += yDelta
+        }
+    }
+
     /*
 	* What this function does is go through every elements Moore neighbourhood (excluding itself)
 	* and look for the lowest point, the match.

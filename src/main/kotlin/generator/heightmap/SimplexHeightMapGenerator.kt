@@ -8,6 +8,7 @@ class SimplexHeightMapGenerator(generationData: GenerationData) : AbstractHeight
             GenerationDimension.TWO_DIMENSION -> cachedHeightMap.add2DSimplexNoise(generationData)
             GenerationDimension.THREE_DIMENSION -> cachedHeightMap.add3DSimplexNoise(generationData)
             GenerationDimension.FOUR_DIMENSION -> cachedHeightMap.add4DSimplexNoise(generationData)
+            GenerationDimension.SPHERICAL -> cachedHeightMap.addSphericalNoise(generationData)
         }
         //cachedHeightMap.perturb(perturbFrequency, perturbDistance)
         for (i in 0 until generationData.erodeIterations) cachedHeightMap.erode(generationData.erodeSmoothness)
