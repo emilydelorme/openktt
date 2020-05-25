@@ -25,4 +25,10 @@ x and y axis linked
 #### Spherical
 
 ![mapSpherical](img/map-spherical.png)
+
+##### Using godot
+
+Same texture with a sphere:  
 ![sphere](img/sphere.png)
+Same texture with a sphere and clouds (with shaders):
+![sphereatmo](img/sphere-atmo.png)
