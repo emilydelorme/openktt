@@ -1,9 +1,7 @@
 package generator.heightmap
 
 import generator.noise.SimplexNoiseOctave
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.*
 
 class HeightMap(val generationData: GenerationData) {
     var heights: Array<FloatArray> = Array(generationData.width) { FloatArray(generationData.height) }
@@ -21,8 +19,8 @@ class HeightMap(val generationData: GenerationData) {
 
         for (i in 0 until generationData.width) {
             for (j in 0 until generationData.height) {
-                val x = (xStart + i * ((generationData.largestFeature - xStart) / generationData.width)).toInt()
-                val y = (yStart + j * ((generationData.largestFeature - yStart) / generationData.height)).toInt()
+                val x = (xStart + i * ((generationData.largestFeature - xStart) / generationData.width))
+                val y = (yStart + j * ((generationData.largestFeature - yStart) / generationData.height))
                 heights[i][j] += simplexNoise.getNoise2D(x, y).toFloat()
             }
         }
