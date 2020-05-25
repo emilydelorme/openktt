@@ -1,12 +1,14 @@
 package generator.heightmap
 
-import kotlin.random.Random
-
 class SimplexHeightMapGenerator(generationData: GenerationData) : AbstractHeightMapGenerator(generationData) {
 
     override fun generateHeightMap(): HeightMap {
-        cachedHeightMap = HeightMap(generationData.size, generationData.seed)
-        cachedHeightMap.add4DSimplexNoise(generationData.largestFeature, generationData.persistence)
+        cachedHeightMap = HeightMap(generationData)
+        when (generationData.dimension) {
+            GenerationDimension.TWO_DIMENSION -> cachedHeightMap.add2DSimplexNoise(generationData)
+            GenerationDimension.THREE_DIMENSION -> cachedHeightMap.add3DSimplexNoise(generationData)
+            GenerationDimension.FOUR_DIMENSION -> cachedHeightMap.add4DSimplexNoise(generationData)
+        }
         //cachedHeightMap.perturb(perturbFrequency, perturbDistance)
         for (i in 0 until generationData.erodeIterations) cachedHeightMap.erode(generationData.erodeSmoothness)
         cachedHeightMap.smooth()
@@ -16,12 +18,12 @@ class SimplexHeightMapGenerator(generationData: GenerationData) : AbstractHeight
         return cachedHeightMap
     }
 
-    override fun generateRandomHeightMap() : HeightMap {
+    override fun generateRandomHeightMap(): HeightMap {
         generationData.largestFeature = (0..100).random()
         generationData.persistence = 0.9
         generationData.perturbFrequency = 320.0f
         generationData.perturbDistance = 32.0f
-        generationData. erodeIterations = (5..20).random()
+        generationData.erodeIterations = (5..20).random()
         generationData.erodeSmoothness = 160.0f
         return generateHeightMap()
     }
@@ -32,7 +34,7 @@ class SimplexHeightMapGenerator(generationData: GenerationData) : AbstractHeight
         generationData.persistence = 0.8
         generationData.perturbFrequency = 120f
         generationData.perturbDistance = 32f
-        generationData. erodeIterations = 5
+        generationData.erodeIterations = 5
         generationData.erodeSmoothness = 20f
         return this.generateHeightMap()
     }

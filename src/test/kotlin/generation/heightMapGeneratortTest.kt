@@ -1,6 +1,7 @@
 package generation
 
 import generator.heightmap.GenerationData
+import generator.heightmap.GenerationDimension
 import generator.heightmap.SimplexHeightMapGenerator
 import generator.heightmap.render.GrayScaleGradientManager
 import generator.heightmap.render.TerrainGradientManager
@@ -13,10 +14,17 @@ fun main(args : Array<String>) {
 }
 
 fun generateSample() {
-    val map = SimplexHeightMapGenerator(GenerationData(8196, 142536789, true,
-        980892,0.70,0f,0f,8, 30f))
-    map.generateHeightMap()
-    map.generateBufferedImage(TerrainGradientManager(true))
-    println("Min height: ${map.minHeight}, Max height: ${map.maxHeight}")
-    ImageIO.write(map.cachedHeightMapImage, "png", File("map.png"))
+    val generationdata= GenerationData(1024, 1024, 1000, GenerationDimension.FOUR_DIMENSION, true,
+        1000000,0.70,0f,0f,8, 30f)
+    for (i in 2..4) {
+        when(i) {
+            2 -> generationdata.dimension = GenerationDimension.TWO_DIMENSION
+            3 -> generationdata.dimension = GenerationDimension.THREE_DIMENSION
+            4 -> generationdata.dimension = GenerationDimension.FOUR_DIMENSION
+        }
+        val map = SimplexHeightMapGenerator(generationdata)
+        map.generateBufferedImage()
+        ImageIO.write(map.cachedHeightMapImage, "png", File("map-${generationdata.dimension.toString().toLowerCase()}.png"))
+    }
+
 }

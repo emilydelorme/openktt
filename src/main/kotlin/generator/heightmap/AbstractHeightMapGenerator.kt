@@ -29,10 +29,10 @@ abstract class AbstractHeightMapGenerator(var generationData: GenerationData) {
 
     fun generateBufferedImage(gradientManager: GradientManager): BufferedImage {
         val imageType = if (useGrayScale) BufferedImage.TYPE_BYTE_GRAY else BufferedImage.TYPE_INT_RGB
-        cachedHeightMapImage = BufferedImage(cachedHeightMap.size, cachedHeightMap.size, imageType)
+        cachedHeightMapImage = BufferedImage(cachedHeightMap.generationData.width, cachedHeightMap.generationData.height, imageType)
 
-        for (i in 0 until cachedHeightMap.size) {
-            for (j in 0 until cachedHeightMap.size) {
+        for (i in 0 until cachedHeightMap.generationData.width) {
+            for (j in 0 until cachedHeightMap.generationData.height) {
                 cachedHeightMapImage.setRGB(i, j, getColor(cachedHeightMap.heights[i][j], gradientManager))
             }
         }
@@ -74,8 +74,8 @@ abstract class AbstractHeightMapGenerator(var generationData: GenerationData) {
     fun setMapInfo(heightMap: HeightMap) {
         minHeight = 100000f
         maxHeight = -100000f
-        for (i in 0 until heightMap.size) {
-            for (j in 0 until heightMap.size) {
+        for (i in 0 until heightMap.generationData.width) {
+            for (j in 0 until heightMap.generationData.height) {
                 if (heightMap.heights[i][j] < minHeight) minHeight = heightMap.heights[i][j]
                 if (heightMap.heights[i][j] > maxHeight) maxHeight = heightMap.heights[i][j]
             }
@@ -89,8 +89,8 @@ abstract class AbstractHeightMapGenerator(var generationData: GenerationData) {
      */
     fun normalize() {
         val oMax = 2
-        for (i in 0 until generationData.size) {
-            for (j in 0 until generationData.size) {
+        for (i in 0 until generationData.width) {
+            for (j in 0 until generationData.width) {
                 cachedHeightMap.heights[i][j] = ((cachedHeightMap.heights[i][j] + abs(minHeight) * oMax / (maxHeight + abs(minHeight))) - 1)
             }
         }
